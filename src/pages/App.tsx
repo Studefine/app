@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "../containers/ThemeProvider";
 
-function App() {
+const App = () => {
   const { toggleTheme } = useTheme();
 
   return (
@@ -9,6 +9,6 @@ function App() {
       <button onClick={toggleTheme}>changeTheme</button>
     </div>
   );
-}
+};
 
 export default App;
