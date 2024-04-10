@@ -15,7 +15,7 @@
   --purple-2: #220135;
   --purple-3: #32004f;
   --purple-4: #3a015c;
-    transition-duration: 500ms;
+  transition-duration: 500ms;
 }
 
 [app-theme="dark"] {
@@ -34,8 +34,8 @@
   --base: white;
   --color: black;
 }
-.ngd_transition{
-    transition-duration: 400ms;
+.ngd_transition {
+  transition-duration: 400ms;
 }
 body {
   background-color: var(--base);

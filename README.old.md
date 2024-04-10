@@ -1,2 +1,3 @@
 # studefine
+
 A Szakdolgozatom
