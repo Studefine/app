@@ -15,6 +15,38 @@
   --purple-2: #220135;
   --purple-3: #32004f;
   --purple-4: #3a015c;
+
+  /* font sizes */
+  --text-size-xs: 9px;
+  --text-size-sm: 13px;
+  --text-size-md: 16px;
+  --text-size-lg: 18px;
+  --text-size-h5: 22px;
+  --text-size-h4: 27px;
+  --text-size-h3: 34px;
+  --text-size-h2: 43px;
+  --text-size-h1: 53px;
+
+  /* sizes */
+  --size-x1: 4px;
+  --size-x2: 8px;
+  --size-x3: 12px;
+  --size-x4: 16px;
+  --size-x5: 20px;
+  --size-x6: 24px;
+  --size-x7: 28px;
+  --size-x8: 32px;
+  --size-x9: 36px;
+  --size-x10: 40px;
+
+  /* radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* font weigh */
   transition-duration: 500ms;
 }
 
@@ -38,6 +70,7 @@
   transition-duration: 400ms;
 }
 body {
+  font-family: Poppins, -apple-system, sans-serif ;
   background-color: var(--base);
 }
 
