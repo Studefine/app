@@ -1,8 +1,47 @@
+:root {
+  --base: #2a2a2a;
+  --base-secondary: #191919;
+  --primary: white;
+  --action: #af72ff;
+  --warning: #ffa500;
+  --link: #75c0ff;
+  --error: #e74c3c;
+  --color: white;
+  --button-background: black;
+
+  /* purple */
+  --purple-0: #11001c;
+  --purple-1: #190028;
+  --purple-2: #220135;
+  --purple-3: #32004f;
+  --purple-4: #3a015c;
+    transition-duration: 500ms;
+}
+
+[app-theme="dark"] {
+  --base: #2a2a2a;
+  --base-secondary: #191919;
+  --primary: white;
+  --action: #af72ff;
+  --warning: #ffa500;
+  --link: #75c0ff;
+  --error: #e74c3c;
+  --color: white;
+  --button-background: black;
+}
+
+[app-theme="light"] {
+  --base: white;
+  --color: black;
+}
+.ngd_transition{
+    transition-duration: 400ms;
+}
 body {
-  background-color: black;
+  background-color: var(--base);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
