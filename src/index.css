@@ -1,31 +1,33 @@
 :root {
-  --base: #2a2a2a;
-  --base-secondary: #191919;
-  --primary: white;
-  --action: #af72ff;
-  --warning: #ffa500;
-  --link: #75c0ff;
-  --error: #e74c3c;
-  --color: white;
-  --button-background: black;
+  /* If you add more custom values don't forget to update the array in customValues.ts */
+  /* colors */
+  --color-base: #2a2a2a;
+  --color-base-secondary: #191919;
+  --color-primary: white;
+  --color-action: #af72ff;
+  --color-warning: #ffa500;
+  --color-link: #75c0ff;
+  --color-error: #e74c3c;
+  --color-text: white;
+  --color-button-background: black;
 
   /* purple */
-  --purple-0: #11001c;
-  --purple-1: #190028;
-  --purple-2: #220135;
-  --purple-3: #32004f;
-  --purple-4: #3a015c;
+  --color-purple-0: #11001c;
+  --color-purple-1: #190028;
+  --color-purple-2: #220135;
+  --color-purple-3: #32004f;
+  --color-purple-4: #3a015c;
 
   /* font sizes */
-  --text-size-xs: 9px;
-  --text-size-sm: 13px;
-  --text-size-md: 16px;
-  --text-size-lg: 18px;
-  --text-size-h5: 22px;
-  --text-size-h4: 27px;
-  --text-size-h3: 34px;
-  --text-size-h2: 43px;
-  --text-size-h1: 53px;
+  --font-size-xs: 9px;
+  --font-size-sm: 13px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-h5: 22px;
+  --font-size-h4: 27px;
+  --font-size-h3: 34px;
+  --font-size-h2: 43px;
+  --font-size-h1: 53px;
 
   /* sizes */
   --size-x1: 4px;
@@ -51,27 +53,21 @@
 }
 
 [app-theme="dark"] {
-  --base: #2a2a2a;
-  --base-secondary: #191919;
-  --primary: white;
-  --action: #af72ff;
-  --warning: #ffa500;
-  --link: #75c0ff;
-  --error: #e74c3c;
-  --color: white;
-  --button-background: black;
 }
 
 [app-theme="light"] {
-  --base: white;
-  --color: black;
+  --color-base: white;
+  --color-text: black;
 }
+
 .ngd_transition {
   transition-duration: 400ms;
 }
+
 body {
-  font-family: Poppins, -apple-system, sans-serif ;
-  background-color: var(--base);
+  font-family: -apple-system, Poppins, sans-serif;
+  background-color: var(--color-base);
+  color: var(--color-text);
 }
 
 code {
