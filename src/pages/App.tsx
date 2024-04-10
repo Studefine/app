@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import ErrorBoundary from "./ErrorBoundary";
 import RegistrationPage from "./RegistrationPage";
+import SideMenu from "../components/SideMenu";
 
 const router = createBrowserRouter([
   {
@@ -26,9 +27,7 @@ const App = () => {
 
   return (
     <>
-      <div className="App">
-        <button onClick={toggleTheme}>changeTheme</button>
-      </div>
+      <SideMenu />
       <RouterProvider router={router} />
     </>
   );
