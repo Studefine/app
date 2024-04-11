@@ -3,14 +3,20 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider } from "./containers/ThemeProvider";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { customTheme } from "./utils/customValues";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
+    <ThemeProvider theme={customTheme}>
+      <CssBaseline />
       <App />
     </ThemeProvider>
   </React.StrictMode>,

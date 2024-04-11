@@ -1,31 +1,21 @@
-export const customColors = [
-  /* colors */
-  "base",
-  "base-secondary",
-  "primary",
-  "action",
-  "warning",
-  "link",
-  "error",
-  "text",
-  "button-background",
-  /* purple */
-  "purple-0",
-  "purple-1",
-  "purple-2",
-  "purple-3",
-  "purple-4",
-] as const;
+import { createTheme } from "@mui/material";
 
-export const customFontSizes = [
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-] as const;
+export const customTheme = createTheme({
+  palette: {
+    background: {
+      default: "#191919",
+      paper: "#191919",
+    },
+    text: { primary: "#ffffff" },
+    primary: { main: "#AED581" },
+    secondary: { main: "#af72ff" },
+    info: { main: "#75c0ff" },
+    warning: { main: "#ffa500" },
+    error: { main: "#e74c3c" },
+    mode: "dark",
+  },
+  spacing: 4,
+  typography: {
+    fontFamily: "Poppins, sans-serif",
+  },
+});
