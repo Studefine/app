@@ -1,9 +1,8 @@
 import React from "react";
-import Text from "../components/Text";
-import "../index.css";
+import {Typography} from "@mui/material";
 // todo fix this page to look nice
 const ErrorBoundary = () => {
-  return <Text fontSize={"lg"} color={"error"}>Hmm, nem gépeltél el valamit?</Text>;
+  return <Typography fontSize={"xxx-large"} color={"error"}>Hmm, nem gépeltél el valamit?</Typography>;
 };
 
 export default ErrorBoundary;
