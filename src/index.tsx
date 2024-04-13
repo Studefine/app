@@ -9,16 +9,26 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { customTheme } from "./utils/customValues";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "react-query";
+import UserProvider from "./containers/UserProvider";
+import { BrowserRouter } from "react-router-dom";
 
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={customTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={customTheme}>
+        <CssBaseline />
+        <UserProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </UserProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 
