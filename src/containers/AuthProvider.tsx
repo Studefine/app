@@ -13,16 +13,18 @@ import { Credentials, loginUser, validateToken } from "../api/user";
 interface AuthContext {
   isLoading: boolean;
   user: User | undefined;
-  logout: () => void;
-  validate: () => void;
   login: (credentials: { username: string; password: string }) => void;
+  validate: (token: string) => void;
+  checkAuthenticatedUser: () => void;
+  logout: () => void;
 }
 const AuthContext = createContext<AuthContext>({
   isLoading: true,
   user: undefined,
-  logout: () => {},
-  validate: () => {},
   login: async (credentials) => {},
+  validate: () => {},
+  checkAuthenticatedUser: () => {},
+  logout: () => {},
 });
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -45,7 +47,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setUser(response.user);
   }, []);
 
-  const { mutate: validateMutate, isLoading: isValidateLoading } = useMutation(
+  const { mutate: validate, isLoading: isValidateLoading } = useMutation(
     ["validation"],
     validateToken,
     {
@@ -63,20 +65,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     onError: logout,
   });
 
-  const validate = useCallback(() => {
+  const checkAuthenticatedUser = useCallback(() => {
     const cookies = parseCookies();
     const token = cookies.jwtToken;
-    validateMutate(token);
+    validate(token);
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        validate,
         user,
         isLoading: isLoading || isValidateLoading,
-        logout,
         login,
+        validate,
+        checkAuthenticatedUser,
+        logout,
       }}
     >
       {children}
