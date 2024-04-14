@@ -10,7 +10,7 @@ import "@fontsource/roboto/700.css";
 import { customTheme } from "./utils/customValues";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
-import UserProvider from "./containers/UserProvider";
+import AuthProvider from "./containers/AuthProvider";
 import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
@@ -22,11 +22,11 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
         <CssBaseline />
-        <UserProvider>
+        <AuthProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </UserProvider>
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,

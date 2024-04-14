@@ -1,35 +1,25 @@
 import React from "react";
-import { useTheme } from "../containers/ThemeProvider";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LoginPage from "./LoginPage";
-import ErrorBoundary from "./ErrorBoundary";
 import RegistrationPage from "./RegistrationPage";
-import SideMenu from "../components/SideMenu";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LoginPage />,
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/registration",
-    element: <RegistrationPage />,
-  },
-]);
+import SideMenu from "../components/SideMenu/SideMenu";
+import Box from "@mui/material/Box";
 
 const App = () => {
-  const { toggleTheme } = useTheme();
-
   return (
-    <>
+    <Box
+      display={"flex"}
+      flexDirection={"row"}
+      component="main"
+      height={"100vh"}
+    >
       <SideMenu />
-      <RouterProvider router={router} />
-    </>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+      </Routes>
+    </Box>
   );
 };
 
