@@ -54,7 +54,7 @@ const SideMenu = () => {
             ))}
           </List>
           <Divider />
-          <List id="side_menu_portal" />
+          <List id="side_menu_portal" style={{ flex: 1 }} />
           <Divider />
           <List>
             {navigationButtons.bottom.map((buttonProps, index) =>
