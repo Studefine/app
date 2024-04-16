@@ -4,7 +4,7 @@ import LoginPage from "./LoginPage";
 import ContactsPage from "./ContactsPage";
 import RegistrationPage from "./RegistrationPage";
 import AboutPage from "./AboutPage";
-import Layout from "../components/Layout";
+import Layout from "./Layout";
 import RequireAuth from "../components/RequireAuth";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopicsPage } from "./TopicsPage";
