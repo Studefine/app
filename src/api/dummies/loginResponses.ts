@@ -27,14 +27,14 @@ export const d_getValidateResponse = (
 ): LoginResponse =>
   error
     ? { success: false, message: "Invalid token", token }
-    : d_getLoginResponse(!error, id, token);
+    : d_getLoginResponse(!!error, id, token);
 
 export const d_getLoginResponse = (
   isFailed: boolean,
   id: keyof typeof d_users,
   token?: string,
 ): LoginResponse => ({
-  success: isFailed,
+  success: !isFailed,
   message: isFailed ? "logged in successfully" : "Wrong password or username",
   user: isFailed ? undefined : d_users[id],
   token: isFailed

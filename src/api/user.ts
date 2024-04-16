@@ -20,7 +20,7 @@ export const validateToken: ValidateToken = d_post<string, LoginResponse>(
 );
 
 export interface Credentials {
-  username: string;
+  email: string;
   password: string;
 }
 export type LoginUser = (credentials: Credentials) => Promise<LoginResponse>;
