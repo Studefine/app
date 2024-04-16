@@ -6,11 +6,15 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { LoginResponse, User } from "../types/types";
+import {
+  Credentials,
+  LoginParameters,
+  LoginResponse,
+  User,
+} from "../types/types";
 import { useMutation } from "react-query";
-import { Credentials, loginUser, validateToken } from "../api/user";
+import { loginUser, validateToken } from "../api/user";
 import { useCookies } from "react-cookie";
-import { LoginParameters } from "../pages/LoginPage";
 
 interface AuthContext {
   isLoading: boolean;
@@ -36,7 +40,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isAuthCheckedOnLoad, setIsAuthCheckedOnLoad] =
     useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>();
-  const [stayLoggedIn, setStayLoggedIn] = useState<boolean>(false);
+  let stayLoggedIn = false;
 
   const logout = () => {
     setUser(undefined);
@@ -44,14 +48,14 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   };
 
   const onValidated = useCallback(
-    async (response: LoginResponse) => {
-      console.log("response: ", response);
+    async (response: LoginResponse, stay: boolean) => {
       if (!response.token) {
         setUser(undefined);
+        setIsAuthCheckedOnLoad(true);
         return;
       }
 
-      if (stayLoggedIn) {
+      if (stay) {
         const expires = new Date(Date.now() + 604800000); // 7 days
         setCookie("authToken", response.token, { expires, path: "/" });
       } else {
@@ -69,27 +73,38 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     LoginResponse,
     string
   >(["validation"], (token) => validateToken(token), {
-    onSuccess: onValidated,
-    onError: logout,
+    onSuccess: (res) => onValidated(res, stayLoggedIn),
+    onError: () => {
+      setIsAuthCheckedOnLoad(true);
+      logout();
+    },
   });
 
   useEffect(() => {
-    if (!isAuthCheckedOnLoad && cookies.authToken) {
-      console.log("auth: ", cookies.authToken);
-      validate(cookies.authToken);
+    if (!isAuthCheckedOnLoad) {
+      if (cookies.authToken) {
+        validate(cookies.authToken);
+      } else {
+        setIsAuthCheckedOnLoad(true);
+      }
     }
-  }, []);
+  }, [validate, cookies.authToken, isAuthCheckedOnLoad]);
 
   const { mutate: login, isLoading } = useMutation<
     LoginResponse,
     LoginResponse,
     Credentials
   >("validation", loginUser, {
-    onSuccess: onValidated,
+    onSuccess: (res) => onValidated(res, stayLoggedIn),
     onError: logout,
   });
-  const handleLogin = (parameters: LoginParameters) => {
-    login(parameters);
+
+  const handleLogin: (params: LoginParameters) => void = ({
+    stayLoggedIn: stay,
+    ...credentials
+  }) => {
+    stayLoggedIn = stay;
+    login(credentials);
   };
 
   return (
