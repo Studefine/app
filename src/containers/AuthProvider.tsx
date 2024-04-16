@@ -3,58 +3,82 @@ import React, {
   PropsWithChildren,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { LoginResponse, User } from "../types/types";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { useMutation } from "react-query";
 import { Credentials, loginUser, validateToken } from "../api/user";
+import { useCookies } from "react-cookie";
+import { LoginParameters } from "../pages/LoginPage";
 
 interface AuthContext {
   isLoading: boolean;
+  isAuthCheckedOnLoad: boolean;
   user: User | undefined;
-  login: (credentials: { username: string; password: string }) => void;
+  login: (parameters: LoginParameters) => void;
   validate: (token: string) => void;
   checkAuthenticatedUser: () => void;
   logout: () => void;
 }
-const AuthContext = createContext<AuthContext>({
+const authContext = createContext<AuthContext>({
   isLoading: true,
+  isAuthCheckedOnLoad: true,
   user: undefined,
-  login: async (credentials) => {},
+  login: async () => {},
   validate: () => {},
   checkAuthenticatedUser: () => {},
   logout: () => {},
 });
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
+  const [isAuthCheckedOnLoad, setIsAuthCheckedOnLoad] =
+    useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>();
+  const [stayLoggedIn, setStayLoggedIn] = useState<boolean>(false);
 
   const logout = () => {
     setUser(undefined);
-    destroyCookie(null, "authToken");
+    removeCookie("authToken");
   };
 
-  const onValidated = useCallback(async (response: LoginResponse) => {
-    if (!response.token) {
-      setUser(undefined);
-      return;
-    }
-    setCookie(null, "authToken", response.token, {
-      maxAge: 24 * 60 * 60,
-      path: "/",
-    });
-    setUser(response.user);
-  }, []);
+  const onValidated = useCallback(
+    async (response: LoginResponse) => {
+      console.log("response: ", response);
+      if (!response.token) {
+        setUser(undefined);
+        return;
+      }
 
-  const { mutate: validate, isLoading: isValidateLoading } = useMutation(
-    ["validation"],
-    validateToken,
-    {
-      onSuccess: onValidated,
-      onError: logout,
+      if (stayLoggedIn) {
+        const expires = new Date(Date.now() + 604800000); // 7 days
+        setCookie("authToken", response.token, { expires, path: "/" });
+      } else {
+        setCookie("authToken", response.token, { path: "/" });
+      }
+      setUser(response.user);
+      setIsAuthCheckedOnLoad(true);
+
+      return response;
     },
+    [setCookie],
   );
+  const { mutate: validate, isLoading: isValidateLoading } = useMutation<
+    LoginResponse,
+    LoginResponse,
+    string
+  >(["validation"], (token) => validateToken(token), {
+    onSuccess: onValidated,
+    onError: logout,
+  });
+
+  useEffect(() => {
+    if (!isAuthCheckedOnLoad && cookies.authToken) {
+      console.log("auth: ", cookies.authToken);
+      validate(cookies.authToken);
+    }
+  }, []);
 
   const { mutate: login, isLoading } = useMutation<
     LoginResponse,
@@ -64,28 +88,27 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     onSuccess: onValidated,
     onError: logout,
   });
-
-  const checkAuthenticatedUser = useCallback(() => {
-    const cookies = parseCookies();
-    const token = cookies.jwtToken;
-    validate(token);
-  }, []);
+  const handleLogin = (parameters: LoginParameters) => {
+    login(parameters);
+  };
 
   return (
-    <AuthContext.Provider
+    <authContext.Provider
       value={{
+        isAuthCheckedOnLoad,
         user,
-        isLoading: isLoading || isValidateLoading,
-        login,
+        isLoading: isLoading || isValidateLoading || !isAuthCheckedOnLoad,
+        login: handleLogin,
         validate,
-        checkAuthenticatedUser,
+        checkAuthenticatedUser: () => validate(cookies.authToken),
         logout,
       }}
     >
+      token:{cookies.authToken}
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   );
 };
-export const useAuthContext = () => useContext(AuthContext);
+export const useAuthContext = () => useContext(authContext);
 
 export default AuthProvider;
