@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -10,8 +9,10 @@ import "@fontsource/roboto/700.css";
 import { customTheme } from "./utils/customValues";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ErrorBoundary from "./pages/ErrorBoundary";
+import App from "./pages/App";
 import AuthProvider from "./containers/AuthProvider";
-import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -24,7 +25,13 @@ root.render(
         <CssBaseline />
         <AuthProvider>
           <BrowserRouter>
-            <App />
+            <Routes>
+              <Route
+                path="/*"
+                element={<App />}
+                errorElement={<ErrorBoundary />}
+              />
+            </Routes>
           </BrowserRouter>
         </AuthProvider>
       </ThemeProvider>
