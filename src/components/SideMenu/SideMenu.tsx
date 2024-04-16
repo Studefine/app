@@ -1,39 +1,21 @@
 import * as React from "react";
-import { useMemo } from "react";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import { Folder, Groups2, Logout, Tune } from "@mui/icons-material";
+import { Folder, Groups2, Login, Logout, Tune } from "@mui/icons-material";
 import Logo from "../Logo";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
-import NavigationButton, { NavigationButtonProps } from "../MenuButton/NavigationButton";
-import { MenuButton, MenuButtonProps } from "../MenuButton/MenuButton";
 import { useAuthContext } from "../../containers/AuthProvider";
+import NavButton from "../MenuButton/NavButton";
+import { MenuButton } from "../MenuButton/MenuButton";
 
-export interface NavigationButtons {
-  top: NavigationButtonProps[];
-  bottom: (NavigationButtonProps | MenuButtonProps)[];
-}
-
+const SIDE_MENU_PORTAL_ID = "side_menu_portal";
 const SideMenu = () => {
-  const { logout, login, user } = useAuthContext();
-
-  const navigationButtons: NavigationButtons = useMemo(
-    () => ({
-      top: [
-        { name: "Témakörök", path: "/topics", Icon: Folder },
-        { name: "Csoportok", path: "/groups", Icon: Groups2 },
-      ],
-      bottom: [
-        { name: "Beállítások", path: "/settings", Icon: Tune },
-        { name: "Kijelentkezés", onClick: logout, Icon: Logout },
-      ],
-    }),
-    [],
-  );
+  const { logout, user, isAuthCheckedOnLoad } = useAuthContext();
+  console.log(user);
 
   return (
-    <Paper style={{ display: "flex" }}>
+    <Paper style={{ display: "flex", borderRadius: 0 }}>
       <Box
         padding={5}
         display="flex"
@@ -44,25 +26,29 @@ const SideMenu = () => {
         <Logo />
         <Box display="flex" flexDirection="column" gap={3} flex={1}>
           <List>
-            {navigationButtons.top.map(({ name, Icon, path }, index) => (
-              <NavigationButton
-                key={name}
-                name={name}
-                Icon={Icon}
-                path={path}
-              />
-            ))}
+            <NavButton name="Kontakt" path="/contacts" Icon={Folder} />
+            {!!user && (
+              <>
+                <NavButton name="Témakörök" path="/topics" Icon={Groups2} />
+                <NavButton name="Csoportok" path="/groups" Icon={Groups2} />
+              </>
+            )}
           </List>
           <Divider />
           <List id="side_menu_portal" style={{ flex: 1 }} />
           <Divider />
           <List>
-            {navigationButtons.bottom.map((buttonProps, index) =>
-              "path" in buttonProps ? (
-                <NavigationButton key={buttonProps.name} {...buttonProps} />
-              ) : (
-                <MenuButton key={buttonProps.name} {...buttonProps} />
-              ),
+            <NavButton name="Beállítások" path="/settings" Icon={Tune} />
+            {!!user ? (
+              <MenuButton name="Kijelentkezés" onClick={logout} Icon={Logout} />
+            ) : (
+              <NavButton
+                name="Bejelentkezés"
+                path="/login"
+                Icon={Login}
+                isLoading={!isAuthCheckedOnLoad}
+                disabled={!isAuthCheckedOnLoad}
+              />
             )}
           </List>
         </Box>
