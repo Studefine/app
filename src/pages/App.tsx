@@ -13,6 +13,7 @@ import RequireLogout from "../components/Requires/RequireLogout";
 import GroupsPage from "./GroupsPage";
 import SettingsPage from "./SettingsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
+import RegistrationSuccess from "./RegistrationSuccess";
 
 const App: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC<PropsWithChildren> = ({ children }) => {
         <Route element={<RequireLogout />}>
           <Route path="login" element={<LoginPage />} />
           <Route path="registration" element={<RegistrationPage />} />
+          <Route path="registration/success" element={<RegistrationSuccess />} />
           <Route path="forgot-pass" element={<ForgotPasswordPage />} />
         </Route>
         <Route path="contacts" element={<ContactsPage />} />
