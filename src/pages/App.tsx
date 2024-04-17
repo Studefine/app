@@ -23,7 +23,10 @@ const App: React.FC<PropsWithChildren> = ({ children }) => {
         <Route element={<RequireLogout />}>
           <Route path="login" element={<LoginPage />} />
           <Route path="registration" element={<RegistrationPage />} />
-          <Route path="registration/success" element={<RegistrationSuccess />} />
+          <Route
+            path="registration/success"
+            element={<RegistrationSuccess />}
+          />
           <Route path="forgot-pass" element={<ForgotPasswordPage />} />
         </Route>
         <Route path="contacts" element={<ContactsPage />} />
