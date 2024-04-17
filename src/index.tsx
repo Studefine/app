@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import App from "./pages/App";
 import AuthProvider from "./containers/AuthProvider";
+import GlobalProgressbarProvider from "./containers/GlobalProgressbarProvider";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -23,17 +24,19 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
         <CssBaseline />
-        <AuthProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="/*"
-                element={<App />}
-                errorElement={<ErrorBoundary />}
-              />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+        <GlobalProgressbarProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  path="/*"
+                  element={<App />}
+                  errorElement={<ErrorBoundary />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
+        </GlobalProgressbarProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,

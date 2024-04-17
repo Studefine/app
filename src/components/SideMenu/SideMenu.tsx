@@ -12,7 +12,6 @@ import { MenuButton } from "../MenuButton/MenuButton";
 // const SIDE_MENU_PORTAL_ID = "side_menu_portal";
 const SideMenu = () => {
   const { logout, user, isAuthCheckedOnLoad } = useAuthContext();
-  console.log(user);
 
   return (
     <Paper style={{ display: "flex", borderRadius: 0 }}>

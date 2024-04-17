@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -15,14 +16,14 @@ import {
 import { useMutation } from "react-query";
 import { loginUser, validateToken } from "../api/user";
 import { useCookies } from "react-cookie";
+import { useGlobalProgressbarContext } from "./GlobalProgressbarProvider";
 
 interface AuthContext {
   isLoading: boolean;
   isAuthCheckedOnLoad: boolean;
   user: User | undefined;
   login: (parameters: LoginParameters) => void;
-  validate: (token: string) => void;
-  checkAuthenticatedUser: () => void;
+  checkUserHasAuth: () => void;
   logout: () => void;
 }
 const authContext = createContext<AuthContext>({
@@ -30,17 +31,18 @@ const authContext = createContext<AuthContext>({
   isAuthCheckedOnLoad: true,
   user: undefined,
   login: async () => {},
-  validate: () => {},
-  checkAuthenticatedUser: () => {},
+  checkUserHasAuth: () => {},
   logout: () => {},
 });
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const { setIsLoading } = useGlobalProgressbarContext();
+
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
   const [isAuthCheckedOnLoad, setIsAuthCheckedOnLoad] =
     useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>();
-  let stayLoggedIn = false;
+  const stayLoggedIn = useRef(false);
 
   const logout = () => {
     setUser(undefined);
@@ -48,14 +50,14 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   };
 
   const onValidated = useCallback(
-    async (response: LoginResponse, stay: boolean) => {
+    async (response: LoginResponse) => {
       if (!response.token) {
         setUser(undefined);
         setIsAuthCheckedOnLoad(true);
         return;
       }
 
-      if (stay) {
+      if (stayLoggedIn) {
         const expires = new Date(Date.now() + 604800000); // 7 days
         setCookie("authToken", response.token, { expires, path: "/" });
       } else {
@@ -63,49 +65,58 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }
       setUser(response.user);
       setIsAuthCheckedOnLoad(true);
+      setIsLoading(false);
 
       return response;
     },
-    [setCookie],
+    [setCookie, setIsLoading],
   );
   const { mutate: validate, isLoading: isValidateLoading } = useMutation<
     LoginResponse,
     LoginResponse,
     string
   >(["validation"], (token) => validateToken(token), {
-    onSuccess: (res) => onValidated(res, stayLoggedIn),
+    onSuccess: onValidated,
     onError: () => {
       setIsAuthCheckedOnLoad(true);
       logout();
     },
   });
 
+  const checkUserHasAuth = useCallback(() => {
+    if (cookies.authToken) {
+      setIsLoading(true);
+      validate(cookies.authToken);
+    }
+  }, [cookies.authToken, validate, setIsLoading]);
+
   useEffect(() => {
     if (!isAuthCheckedOnLoad) {
       if (cookies.authToken) {
-        validate(cookies.authToken);
+        checkUserHasAuth();
       } else {
         setIsAuthCheckedOnLoad(true);
       }
     }
-  }, [validate, cookies.authToken, isAuthCheckedOnLoad]);
+  }, [checkUserHasAuth, cookies.authToken, isAuthCheckedOnLoad]);
 
   const { mutate: login, isLoading } = useMutation<
     LoginResponse,
     LoginResponse,
     Credentials
   >("validation", loginUser, {
-    onSuccess: (res) => onValidated(res, stayLoggedIn),
+    onSuccess: onValidated,
     onError: logout,
   });
 
-  const handleLogin: (params: LoginParameters) => void = ({
-    stayLoggedIn: stay,
-    ...credentials
-  }) => {
-    stayLoggedIn = stay;
-    login(credentials);
-  };
+  const handleLogin: (params: LoginParameters) => void = useCallback(
+    ({ stayLoggedIn: stay, ...credentials }) => {
+      setIsLoading(true);
+      stayLoggedIn.current = stay;
+      login(credentials);
+    },
+    [login, setIsLoading],
+  );
 
   return (
     <authContext.Provider
@@ -114,12 +125,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         user,
         isLoading: isLoading || isValidateLoading || !isAuthCheckedOnLoad,
         login: handleLogin,
-        validate,
-        checkAuthenticatedUser: () => validate(cookies.authToken),
+        checkUserHasAuth,
         logout,
       }}
     >
-      token:{cookies.authToken}
       {children}
     </authContext.Provider>
   );
