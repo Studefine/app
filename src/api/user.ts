@@ -1,17 +1,8 @@
-import { LoginResponse, User } from "../types/types";
-import {
-  d_getLoginResponse,
-  d_getUser,
-  d_getValidateResponse,
-} from "./dummies/loginResponses";
-import { d_fetcher, d_post } from "./dummies/fetcherSimulate";
-
-export const getUser = (id: string) => {
-  return d_fetcher<User | undefined>(
-    id in ["5"] ? d_getUser(id) : undefined,
-    false,
-  );
-};
+import { Credentials, LoginResponse } from "../types/types";
+import { d_getValidateResponse } from "./dummies/loginResponses";
+import { d_post } from "./dummies/fetcherSimulate";
+import { fetcher } from "./fetcher";
+import { RegistrationParameters } from "../pages/RegistrationPage/RegistrationPage";
 
 export type ValidateToken = (token: string) => Promise<LoginResponse>;
 export const validateToken: ValidateToken = d_post<string, LoginResponse>(
@@ -19,13 +10,11 @@ export const validateToken: ValidateToken = d_post<string, LoginResponse>(
   false,
 );
 
-export interface Credentials {
-  email: string;
-  password: string;
-}
-export type LoginUser = (credentials: Credentials) => Promise<LoginResponse>;
+export const loginUser = (credentials: Credentials) =>
+  fetcher<LoginResponse>("login", {
+    method: "POST",
+    body: JSON.stringify(credentials),
+  }).json();
 
-export const loginUser: LoginUser = d_post<Credentials, LoginResponse>(
-  () => d_getLoginResponse(false, "5"),
-  false,
-);
+export const registration = (params: RegistrationParameters) =>
+  fetcher("register", { method: "POST", body: JSON.stringify(params) }).json();

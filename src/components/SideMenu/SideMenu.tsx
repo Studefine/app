@@ -9,7 +9,7 @@ import { useAuthContext } from "../../containers/AuthProvider";
 import NavButton from "../MenuButton/NavButton";
 import { MenuButton } from "../MenuButton/MenuButton";
 
-const SIDE_MENU_PORTAL_ID = "side_menu_portal";
+// const SIDE_MENU_PORTAL_ID = "side_menu_portal";
 const SideMenu = () => {
   const { logout, user, isAuthCheckedOnLoad } = useAuthContext();
   console.log(user);

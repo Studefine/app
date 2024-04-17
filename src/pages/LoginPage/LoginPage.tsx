@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardHeader,
   Checkbox,
   FormControl,
   Link,
@@ -15,15 +16,15 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../containers/AuthProvider";
 import { useForm } from "react-hook-form";
-import { LoginParameters } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "./loginValidation";
+import { LoginParameters } from "../../types/types";
 
 const LoginPage = () => {
   const { spacing } = useTheme();
   const { login, isLoading } = useAuthContext();
   const navigate = useNavigate();
-  const { register, handleSubmit, getFieldState } = useForm<LoginParameters>({
+  const { register, handleSubmit } = useForm<LoginParameters>({
     defaultValues: { stayLoggedIn: false },
     resolver: yupResolver(loginValidation),
   });
@@ -38,6 +39,7 @@ const LoginPage = () => {
       }}
     >
       <Card>
+        <CardHeader title={"Bejelentkezés"} />
         <form onSubmit={handleSubmit(login)}>
           <CardContent
             sx={{ display: "flex", flexDirection: "column", gap: 4 }}
