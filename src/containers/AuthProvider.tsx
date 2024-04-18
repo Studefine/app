@@ -47,6 +47,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const logout = () => {
     setUser(undefined);
     removeCookie("authToken");
+    setIsLoading(false)
   };
 
   const onValidated = useCallback(
@@ -78,7 +79,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   >(["validation"], (token) => validateToken(token), {
     onSuccess: onValidated,
     onError: () => {
-      setIsAuthCheckedOnLoad(true);
+      setIsAuthCheckedOnLoad(false);
+      setIsLoading(false);
       logout();
     },
   });

@@ -34,6 +34,7 @@ const GlobalProgressbarProvider: React.FC<PropsWithChildren> = ({
     </globalProgressbarContext.Provider>
   );
 };
+
 export const useGlobalProgressbarContext = () =>
   useContext(globalProgressbarContext);
 
