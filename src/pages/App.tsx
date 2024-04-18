@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./LoginPage/LoginPage";
-import ContactsPage from "./ContactsPage";
+import ContactsPage from "./ContactsPage/ContactsPage";
 import RegistrationPage from "./RegistrationPage/RegistrationPage";
 import AboutPage from "./AboutPage";
 import Layout from "./Layout";

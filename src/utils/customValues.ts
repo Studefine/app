@@ -27,7 +27,7 @@ export const customTheme = createTheme({
       defaultProps: {
         fontSize: "small",
         component: "button",
-        underline: "none",
+        underline: "hover",
       },
     },
     MuiDivider: {

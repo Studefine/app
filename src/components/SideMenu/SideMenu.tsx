@@ -1,7 +1,13 @@
 import * as React from "react";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import { Folder, Groups2, Login, Logout, Tune } from "@mui/icons-material";
+import {
+  ContactSupport,
+  Groups2,
+  Login,
+  Logout,
+  Tune,
+} from "@mui/icons-material";
 import Logo from "../Logo";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
@@ -25,7 +31,7 @@ const SideMenu = () => {
         <Logo />
         <Box display="flex" flexDirection="column" gap={3} flex={1}>
           <List>
-            <NavButton name="Kontakt" path="/contacts" Icon={Folder} />
+            <NavButton name="Kontakt" path="/contacts" Icon={ContactSupport} />
             {!!user && (
               <>
                 <NavButton name="Témakörök" path="/topics" Icon={Groups2} />
