@@ -31,6 +31,7 @@ export interface IElement {
 }
 
 export interface ITopic extends IElement {}
+export interface ITopicCreate extends Omit<ITopic, "id"> {}
 export interface IPhrase extends IElement {
   vccd: any;
 }

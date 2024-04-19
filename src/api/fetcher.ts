@@ -6,6 +6,8 @@ type ApiPath =
   | "logout"
   | "getUser"
   | "paths"
+  | "topics"
+  | `topics/${string}`
   | `paths/${string}`;
 
 export const fetcher = <T>(path: ApiPath, init?: RequestInit) => {

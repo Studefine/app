@@ -1,13 +1,13 @@
 import React from "react";
-import { BreadcrumbsLine } from "../../components/BreadcrumbsLine";
 import { Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 
 export const TopicsPage = () => {
   const params = useParams();
+  const loaderData = useLoaderData();
+
   return (
     <Stack paddingTop={2}>
-      <BreadcrumbsLine id={params.id} />
       <>
         <>header</>
         <>leitner boxes</>
