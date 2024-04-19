@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from "react";
-import { User } from "../types/types";
+import { IUser } from "../types/types";
 import { Avatar, Card, CardContent, CardHeader, Link } from "@mui/material";
 import { red } from "@mui/material/colors";
 
 interface PersonCardProps
-  extends PropsWithChildren<Omit<User, "roles" | "id">> {
+  extends PropsWithChildren<Omit<IUser, "roles" | "id">> {
   showEmail?: boolean;
 }
 

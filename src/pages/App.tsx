@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./LoginPage/LoginPage";
 import ContactsPage from "./ContactsPage/ContactsPage";
@@ -7,7 +7,7 @@ import AboutPage from "./AboutPage";
 import Layout from "./Layout";
 import RequireAuth from "../components/Requires/RequireAuth";
 import ErrorBoundary from "./ErrorBoundary";
-import { TopicsPage } from "./TopicsPage";
+import { TopicsPage } from "./TopicsPage/TopicsPage";
 import ForgotPasswordPage from "./ForgotPasswordPage";
 import RequireLogout from "../components/Requires/RequireLogout";
 import GroupsPage from "./GroupsPage";
@@ -15,7 +15,7 @@ import SettingsPage from "./SettingsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
 import RegistrationSuccess from "./RegistrationSuccess";
 
-const App: React.FC<PropsWithChildren> = ({ children }) => {
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -35,8 +35,12 @@ const App: React.FC<PropsWithChildren> = ({ children }) => {
         <Route path="settings" element={<SettingsPage />} />
         {/*protected*/}
         <Route element={<RequireAuth />}>
-          <Route path="topics" element={<TopicsPage />} />
+          <Route path="topics/" element={<TopicsPage />} />
+          <Route path="topics/:id" element={<TopicsPage />} />
+          <Route path="phrase/" element={<TopicsPage />} />
+          <Route path="phrase/:id" element={<TopicsPage />} />
           <Route path="groups" element={<GroupsPage />} />
+          <Route path="groups/:id" element={<GroupsPage />} />
         </Route>
         {/*error*/}
         <Route path="*" element={<ErrorBoundary />} />

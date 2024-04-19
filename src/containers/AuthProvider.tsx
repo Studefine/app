@@ -8,10 +8,10 @@ import React, {
   useState,
 } from "react";
 import {
-  Credentials,
-  LoginParameters,
-  LoginResponse,
-  User,
+  ICredentials,
+  ILoginParameters,
+  ILoginResponse,
+  IUser,
 } from "../types/types";
 import { useMutation } from "react-query";
 import { loginUser, validateToken } from "../api/user";
@@ -21,8 +21,8 @@ import { useGlobalProgressbarContext } from "./GlobalProgressbarProvider";
 interface AuthContext {
   isLoading: boolean;
   isAuthCheckedOnLoad: boolean;
-  user: User | undefined;
-  login: (parameters: LoginParameters) => void;
+  user: IUser | undefined;
+  login: (parameters: ILoginParameters) => void;
   checkUserHasAuth: () => void;
   logout: () => void;
 }
@@ -41,24 +41,24 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
   const [isAuthCheckedOnLoad, setIsAuthCheckedOnLoad] =
     useState<boolean>(false);
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<IUser | undefined>();
   const stayLoggedIn = useRef(false);
 
   const logout = () => {
     setUser(undefined);
     removeCookie("authToken");
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const onValidated = useCallback(
-    async (response: LoginResponse) => {
+    async (response: ILoginResponse) => {
       if (!response.token) {
         setUser(undefined);
         setIsAuthCheckedOnLoad(true);
         return;
       }
 
-      if (stayLoggedIn) {
+      if (stayLoggedIn.current) {
         const expires = new Date(Date.now() + 604800000); // 7 days
         setCookie("authToken", response.token, { expires, path: "/" });
       } else {
@@ -73,8 +73,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     [setCookie, setIsLoading],
   );
   const { mutate: validate, isLoading: isValidateLoading } = useMutation<
-    LoginResponse,
-    LoginResponse,
+    ILoginResponse,
+    ILoginResponse,
     string
   >(["validation"], (token) => validateToken(token), {
     onSuccess: onValidated,
@@ -103,15 +103,15 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, [checkUserHasAuth, cookies.authToken, isAuthCheckedOnLoad]);
 
   const { mutate: login, isLoading } = useMutation<
-    LoginResponse,
-    LoginResponse,
-    Credentials
+    ILoginResponse,
+    ILoginResponse,
+    ICredentials
   >("validation", loginUser, {
     onSuccess: onValidated,
     onError: logout,
   });
 
-  const handleLogin: (params: LoginParameters) => void = useCallback(
+  const handleLogin: (params: ILoginParameters) => void = useCallback(
     ({ stayLoggedIn: stay, ...credentials }) => {
       setIsLoading(true);
       stayLoggedIn.current = stay;

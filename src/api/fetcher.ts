@@ -1,8 +1,14 @@
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
-type Path = "login" | "register" | "logout" | "getUser";
+type ApiPath =
+  | "login"
+  | "register"
+  | "logout"
+  | "getUser"
+  | "paths"
+  | `paths/${string}`;
 
-export const fetcher = <T>(path: Path, init?: RequestInit) => {
+export const fetcher = <T>(path: ApiPath, init?: RequestInit) => {
   const fetchPromise = fetch(`${apiUrl}/${path}`, {
     headers: {
       "Content-Type": "application/json",

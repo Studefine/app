@@ -1,17 +1,17 @@
-import { Credentials, LoginResponse } from "../types/types";
+import { ICredentials, ILoginResponse } from "../types/types";
 import { d_getValidateResponse } from "./dummies/loginResponses";
 import { d_post } from "./dummies/fetcherSimulate";
 import { fetcher } from "./fetcher";
 import { RegistrationParameters } from "../pages/RegistrationPage/RegistrationPage";
 
-export type ValidateToken = (token: string) => Promise<LoginResponse>;
-export const validateToken: ValidateToken = d_post<string, LoginResponse>(
+export type ValidateToken = (token: string) => Promise<ILoginResponse>;
+export const validateToken: ValidateToken = d_post<string, ILoginResponse>(
   (token) => d_getValidateResponse(token, "123"),
   false,
 );
 
-export const loginUser = (credentials: Credentials) =>
-  fetcher<LoginResponse>("login", {
+export const loginUser = (credentials: ICredentials) =>
+  fetcher<ILoginResponse>("login", {
     method: "POST",
     body: JSON.stringify(credentials),
   }).json();

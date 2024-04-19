@@ -19,11 +19,11 @@ import { useForm } from "react-hook-form";
 import { useRegistration } from "./hooks/useRegistration";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegistrationValidation } from "./RegistrationValidation";
-import { LoginParameters } from "../../types/types";
+import { ILoginParameters } from "../../types/types";
 import { bindField } from "../../utils/bindField";
 
 export interface RegistrationParameters
-  extends Omit<LoginParameters, "stayLoggedIn"> {
+  extends Omit<ILoginParameters, "stayLoggedIn"> {
   name: string;
   passwordAgain: string;
 }

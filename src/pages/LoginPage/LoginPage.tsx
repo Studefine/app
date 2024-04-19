@@ -18,13 +18,13 @@ import { useAuthContext } from "../../containers/AuthProvider";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "./loginValidation";
-import { LoginParameters } from "../../types/types";
+import { ILoginParameters } from "../../types/types";
 
 const LoginPage = () => {
   const { spacing } = useTheme();
   const { login, isLoading } = useAuthContext();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<LoginParameters>({
+  const { register, handleSubmit } = useForm<ILoginParameters>({
     defaultValues: { stayLoggedIn: false },
     resolver: yupResolver(loginValidation),
   });
