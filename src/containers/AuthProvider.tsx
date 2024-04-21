@@ -122,14 +122,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     error,
     isError,
     reset,
-  } = useMutation<ILoginResponse, ILoginResponse, ICredentials>(
-    "validation",
-    loginUser,
-    {
-      onSuccess: onValidated,
-      onError: logout,
+  } = useMutation<ILoginResponse, any, ICredentials>("login", loginUser, {
+    onSuccess: onValidated,
+    onError: (error) => {
+      setIsLoading(false);
+      return error;
     },
-  );
+  });
 
   const handleLogin: (params: ILoginParameters) => void = useCallback(
     ({ stayLoggedIn: stay, ...credentials }) => {

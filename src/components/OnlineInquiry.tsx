@@ -19,8 +19,8 @@ interface OnlineInquiryForm {
 }
 
 export const OnlineInquiry = () => {
-  const { control, handleSubmit } = useForm<OnlineInquiryForm>({});
-  const submit = (data: OnlineInquiryForm) => {
+  const { control, handleSubmit, formState } = useForm<OnlineInquiryForm>({});
+  const submit = (_: OnlineInquiryForm) => {
     // todo write the logic
   };
 
@@ -50,7 +50,7 @@ export const OnlineInquiry = () => {
         <form onSubmit={handleSubmit(submit)}>
           <TextField
             disabled
-            {...bindField(control, "name")}
+            {...bindField("name", formState, control)}
             label="Név"
             size="small"
             variant="outlined"
@@ -59,7 +59,7 @@ export const OnlineInquiry = () => {
           />
           <TextField
             disabled
-            {...bindField(control, "email")}
+            {...bindField("email", formState, control)}
             label="Email"
             size="small"
             variant="outlined"
@@ -68,7 +68,7 @@ export const OnlineInquiry = () => {
           />
           <TextField
             disabled
-            {...bindField(control, "message")}
+            {...bindField("message", formState, control)}
             label="üzenet"
             size="small"
             variant="outlined"

@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidation } from "./loginValidation";
 import { ILoginParameters } from "../../types/types";
+import { bindField } from "../../utils/bindField";
 
 const LoginPage = () => {
   const { spacing } = useTheme();
@@ -28,14 +29,21 @@ const LoginPage = () => {
     loginResponses: { isError, error, reset, data },
   } = useAuthContext();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<ILoginParameters>({
-    defaultValues: { stayLoggedIn: false },
-    resolver: yupResolver(loginValidation),
-  });
+  const { register, handleSubmit, setError, formState, control } =
+    useForm<ILoginParameters>({
+      defaultValues: { stayLoggedIn: false },
+      resolver: yupResolver(loginValidation),
+    });
   useEffect(() => {
-    console.log("loginresponses ", isError, error, reset, data);
     if (isError) {
-      console.log("loginresponses after error", isError, error.response, reset, data);
+      setError("email", { message: "Hibás emailcím vagy password" });
+      if (error.message === "wrongPasswordOrEmail") {
+        console.log(
+          "loginresponses after error",
+          error.message,
+          error.message === "wrongPasswordOrEmail",
+        );
+      }
     }
   }, [isError, error, reset]);
 
@@ -55,7 +63,7 @@ const LoginPage = () => {
             sx={{ display: "flex", flexDirection: "column", gap: 4 }}
           >
             <TextField
-              {...register("email")}
+              {...bindField("email", formState, control)}
               fullWidth
               size="small"
               label="E-mail"
@@ -63,7 +71,7 @@ const LoginPage = () => {
               autoComplete="email"
             />
             <TextField
-              {...register("password")}
+              {...bindField("password", formState, control)}
               fullWidth
               size="small"
               label="Jelszó"

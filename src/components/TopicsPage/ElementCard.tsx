@@ -62,7 +62,7 @@ const ElementCardWrapper: FC<
 > = ({ id, name, type, children, leitner }) => {
   const navigate = useNavigate();
   const { palette } = useTheme();
-  console.log("leitner", leitner);
+
   return (
     <ImageListItem>
       <Paper

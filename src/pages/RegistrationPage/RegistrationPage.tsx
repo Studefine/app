@@ -29,9 +29,10 @@ export interface RegistrationParameters
 }
 
 const RegistrationPage = () => {
-  const { handleSubmit, control, setError } = useForm<RegistrationParameters>({
-    resolver: yupResolver(RegistrationValidation),
-  });
+  const { handleSubmit, control, setError, formState } =
+    useForm<RegistrationParameters>({
+      resolver: yupResolver(RegistrationValidation),
+    });
   const [termsAgreed, setTermsAgreed] = useState<boolean>(false);
   const { mutate: registration, isLoading } = useRegistration(setError);
   const { spacing } = useTheme();
@@ -57,7 +58,7 @@ const RegistrationPage = () => {
             sx={{ display: "flex", flexDirection: "column", gap: 4 }}
           >
             <TextField
-              {...bindField(control, "name")}
+              {...bindField("name", formState, control)}
               fullWidth
               size="small"
               label="név"
@@ -65,7 +66,7 @@ const RegistrationPage = () => {
               autoComplete="name"
             />
             <TextField
-              {...bindField(control, "email")}
+              {...bindField("email", formState, control)}
               fullWidth
               size="small"
               label="E-mail"
@@ -73,7 +74,7 @@ const RegistrationPage = () => {
               autoComplete="email"
             />
             <TextField
-              {...bindField(control, "password")}
+              {...bindField("password", formState, control)}
               fullWidth
               size="small"
               label="Jelszó"
@@ -81,7 +82,7 @@ const RegistrationPage = () => {
               autoComplete="new-password"
             />
             <TextField
-              {...bindField(control, "passwordAgain")}
+              {...bindField("passwordAgain", formState, control)}
               fullWidth
               size="small"
               label="Jelszó ismét"
