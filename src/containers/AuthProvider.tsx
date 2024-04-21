@@ -25,7 +25,14 @@ interface AuthContext {
   login: (parameters: ILoginParameters) => void;
   checkUserHasAuth: () => void;
   logout: () => void;
+  loginResponses: {
+    data: any;
+    isError: boolean;
+    error: any;
+    reset: () => void;
+  };
 }
+
 const authContext = createContext<AuthContext>({
   isLoading: true,
   isAuthCheckedOnLoad: true,
@@ -33,6 +40,12 @@ const authContext = createContext<AuthContext>({
   login: async () => {},
   checkUserHasAuth: () => {},
   logout: () => {},
+  loginResponses: {
+    data: undefined,
+    isError: false,
+    error: undefined,
+    reset: () => {},
+  },
 });
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -102,14 +115,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [checkUserHasAuth, cookies.authToken, isAuthCheckedOnLoad]);
 
-  const { mutate: login, isLoading } = useMutation<
-    ILoginResponse,
-    ILoginResponse,
-    ICredentials
-  >("validation", loginUser, {
-    onSuccess: onValidated,
-    onError: logout,
-  });
+  const {
+    mutate: login,
+    isLoading,
+    data,
+    error,
+    isError,
+    reset,
+  } = useMutation<ILoginResponse, ILoginResponse, ICredentials>(
+    "validation",
+    loginUser,
+    {
+      onSuccess: onValidated,
+      onError: logout,
+    },
+  );
 
   const handleLogin: (params: ILoginParameters) => void = useCallback(
     ({ stayLoggedIn: stay, ...credentials }) => {
@@ -129,6 +149,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         login: handleLogin,
         checkUserHasAuth,
         logout,
+        loginResponses: { data, isError, error, reset },
       }}
     >
       {children}

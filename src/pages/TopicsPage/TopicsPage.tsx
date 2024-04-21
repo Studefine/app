@@ -18,12 +18,21 @@ export const TopicsPage = () => {
   if (error) return <ApiErrorMessage />;
   return (
     <Stack direction="column" height="100%">
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="h4" marginRight={3}>
+      <Box display="flex" justifyContent="space-between" flexWrap="wrap">
+        <Typography
+          variant="h4"
+          marginRight={3}
+          height={42}
+          sx={{
+            textWrap: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+          }}
+        >
           {isMainMenu ? "Válassz ki egy témakört" : data.name}
         </Typography>
         {!isMainMenu && (
-          <Stack direction="row">
+          <Stack direction="row" height={42}>
             <LeitnerBox level={0} count={2} />
             <LeitnerBox level={1} count={2} />
             <LeitnerBox level={2} count={2} />
@@ -38,7 +47,14 @@ export const TopicsPage = () => {
             <Paper sx={{ padding: 2 }}>{data.definition}</Paper>
           </Grid>
         )}
-        <Grid item container xs={9} spacing={2} overflow="scroll">
+        <Grid
+          item
+          container
+          xs={9}
+          spacing={2}
+          overflow="scroll"
+          sx={{ scrollbarWidth: "none" }}
+        >
           <TopicList id={data.id} />
           <PhraseList id={data.id} />
         </Grid>

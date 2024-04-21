@@ -36,6 +36,7 @@ export const BreadCrumbSelect: React.FC<{ breadcrumbs: IBreadCrumb[] }> = ({
   return (
     <React.Fragment>
       <ButtonGroup
+        sx={{ flexShrink: 0 }}
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"

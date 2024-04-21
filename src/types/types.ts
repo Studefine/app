@@ -29,7 +29,7 @@ export interface IElement {
   name: string;
   definition: string;
   parent: IElement["id"] | null;
-  children: IElement["id"][];
+  type: ElementType;
 }
 
 /** user can create plain definition for better connection about the definition **/
