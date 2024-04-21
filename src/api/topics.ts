@@ -1,17 +1,31 @@
-import { MutationFunction } from "react-query/types/core/types";
+import { MutationFunction, QueryFunction } from "react-query/types/core/types";
 import { IElement, ITopic, ITopicCreate } from "../types/types";
-import { fetcher } from "./fetcher";
+import { ApiPath, fetcher } from "./fetcher";
 
 export const pathTopics = "topics";
 
-export const getTopics = () => {
-  return fetcher<ITopic[]>(pathTopics, {
+export const getChildTopics: QueryFunction<
+  ITopic[],
+  [ApiPath, ITopic["id"], ApiPath]
+> = ({ queryKey }) => {
+  return fetcher<ITopic[]>(`${pathTopics}/${queryKey[1]}/topics`, {
     method: "GET",
   }).json();
 };
 
-export const getTopic = (id: ITopic["id"]) => {
-  return fetcher<ITopic>(`${pathTopics}/${id}`, {
+export const getChildPhrases: QueryFunction<
+  ITopic[],
+  [ApiPath, ITopic["id"], ApiPath]
+> = ({ queryKey }) => {
+  return fetcher<ITopic[]>(`${pathTopics}/${queryKey[1]}/phrases`, {
+    method: "GET",
+  }).json();
+};
+
+export const getTopic: QueryFunction<ITopic, [string, ITopic["id"]]> = ({
+  queryKey,
+}) => {
+  return fetcher<ITopic>(`${pathTopics}/${queryKey[1]}`, {
     method: "GET",
   }).json();
 };

@@ -1,13 +1,17 @@
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
-type ApiPath =
+export type ApiPath =
   | "login"
   | "register"
   | "logout"
   | "getUser"
   | "paths"
+  | `phrases`
+  | `phrases/${string}`
   | "topics"
   | `topics/${string}`
+  | `topics/${string}/topics`
+  | `topics/${string}/phrases`
   | `paths/${string}`;
 
 export const fetcher = <T>(path: ApiPath, init?: RequestInit) => {

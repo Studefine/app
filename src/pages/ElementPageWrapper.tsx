@@ -4,6 +4,7 @@ import { Outlet, useParams } from "react-router-dom";
 
 const ElementPageWrapper = () => {
   const params = useParams();
+
   return (
     <>
       <BreadcrumbsLine id={params.id} />

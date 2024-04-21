@@ -10,10 +10,10 @@ const RequireAuth = () => {
     checkUserHasAuth();
   }, [checkUserHasAuth, location]);
 
-  return isLoading ? null : !user ? (
-    <Navigate to="/login" state={{ from: location }} replace />
-  ) : (
+  return user ? (
     <Outlet />
+  ) : isLoading ? null : (
+    <Navigate to="/login" state={{ from: location }} replace />
   );
 };
 

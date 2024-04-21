@@ -11,7 +11,7 @@ const Layout = () => {
       <GlobalProgressbar />
       <Stack direction="row" height={"100vh"}>
         <SideMenu />
-        <Container fixed sx={{ overflow: "hidden" }}>
+        <Container fixed sx={{ overflow: "hidden", height: "100%" }}>
           <Outlet />
         </Container>
       </Stack>

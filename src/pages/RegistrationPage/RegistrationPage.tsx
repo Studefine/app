@@ -38,7 +38,6 @@ const RegistrationPage = () => {
   const navigate = useNavigate();
 
   const handleRegistration = (data: RegistrationParameters) => {
-    console.log(data);
     registration(data);
   };
 
