@@ -8,7 +8,9 @@ const ElementPageWrapper = () => {
   return (
     <>
       <BreadcrumbsLine id={params.id} />
-      <Outlet />
+      <div style={{ padding: 0, margin: 0, height: "calc(100% - 48px)" }}>
+        <Outlet />
+      </div>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import {
   Button,
@@ -22,12 +22,22 @@ import { ILoginParameters } from "../../types/types";
 
 const LoginPage = () => {
   const { spacing } = useTheme();
-  const { login, isLoading } = useAuthContext();
+  const {
+    login,
+    isLoading,
+    loginResponses: { isError, error, reset, data },
+  } = useAuthContext();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<ILoginParameters>({
     defaultValues: { stayLoggedIn: false },
     resolver: yupResolver(loginValidation),
   });
+  useEffect(() => {
+    console.log("loginresponses ", isError, error, reset, data);
+    if (isError) {
+      console.log("loginresponses after error", isError, error.response, reset, data);
+    }
+  }, [isError, error, reset]);
 
   return (
     <Box

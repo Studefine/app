@@ -30,10 +30,11 @@ export const BreadcrumbsLine: FC<Partial<BreadcrumbsLineProps>> = ({ id }) => {
       sx={{
         overflow: "auto",
         scrollbarWidth: "none",
-
+        marginY: 2,
+        height: 30,
       }}
     >
-      <NavBreadCrumb type="TOPIC" name="valami" />
+      <NavBreadCrumb type="TOPIC" name="/" />
       {id && <BreadcrumbsList id={id} />}
     </Stack>
   );

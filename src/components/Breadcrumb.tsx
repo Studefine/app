@@ -6,6 +6,7 @@ export const Breadcrumb: React.FC<
   IBreadCrumb & { onClick: () => void; disabled?: boolean }
 > = ({ name, type = "TOPIC", onClick, disabled = false }) => {
   const { palette, spacing } = useTheme();
+
   return (
     <Button
       disabled={disabled}
@@ -13,13 +14,13 @@ export const Breadcrumb: React.FC<
         ":hover": { backgroundColor: palette.primary.light },
         textAlign: "left",
         flexShrink: 0,
-        backgroundColor: "white",
+        backgroundColor: type === "PHRASE" ? "black" : "white",
+        color: type === "PHRASE" ? "white" : "black",
         fontWeight: "bold",
         minWidth: spacing(6),
-        color: "black",
         padding: (theme) => `0 ${theme.spacing(2)}`,
         borderRadius: 3,
-        border: `${type !== "TOPIC" ? 0 : spacing(1)}px solid ${type === "GROUP" ? palette.info.main : "white"}`,
+        border: `${type !== "TOPIC" ? spacing(0.5) : 0} solid ${type === "GROUP" ? palette.info.main : "white"}`,
       }}
       onClick={onClick}
     >

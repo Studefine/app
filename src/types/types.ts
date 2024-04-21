@@ -44,7 +44,7 @@ export interface PlainDefinition {
 
 /** version-controlled plain definition **/
 export interface VCPD {
-  plainDefinition: PlainDefinition[];
+  plainDefinitions: PlainDefinition[];
   active: PlainDefinition["id"];
 }
 

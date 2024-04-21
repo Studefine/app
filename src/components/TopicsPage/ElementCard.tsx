@@ -9,28 +9,25 @@ import {
 import React, { FC, PropsWithChildren } from "react";
 import {
   Button,
-  Card,
-  CardContent,
-  Grid,
+  ImageListItem,
   Paper,
   Stack,
+  Typography,
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { LeitnerBox } from "../LeitnerBox";
 import Box from "@mui/material/Box";
 
-type ElementTypes = IPhrase | ITopic | IGroup;
+type ElementCardTypes = IPhrase | ITopic | IGroup;
 
-interface IElementProps<T extends ElementTypes> {
+interface IElementCardProps<T extends ElementCardTypes> {
   element: T;
-  type: ElementType;
 }
 
-export const Element = <T extends ElementTypes>({
+export const ElementCard = <T extends ElementCardTypes>({
   element,
-  type,
-}: IElementProps<T>) => {
+}: IElementCardProps<T>) => {
   const leitner =
     "leitnerLevel" in element
       ? element.leitnerLevel
@@ -39,22 +36,23 @@ export const Element = <T extends ElementTypes>({
         : undefined;
 
   return (
-    <ElementCard
+    <ElementCardWrapper
       id={element.id}
       name={element.name}
-      type={type}
+      type={element.type}
       leitner={leitner}
     >
-      <CardContent sx={{ padding: 2, flex: 1, display: "flex" }}>
-        <Paper elevation={0} sx={{ padding: 1 }}>
-          {element.definition}
-        </Paper>
-      </CardContent>
-    </ElementCard>
+      {element.type === "PHRASE"
+        ? (element as IPhrase).vcpd.plainDefinitions.find(
+            (plainDefinition) =>
+              plainDefinition.id === (element as IPhrase).vcpd.active,
+          )?.definition
+        : element.definition}
+    </ElementCardWrapper>
   );
 };
 
-const ElementCard: FC<
+const ElementCardWrapper: FC<
   PropsWithChildren<{
     id: IElement["id"];
     name: IElement["name"];
@@ -66,10 +64,9 @@ const ElementCard: FC<
   const { palette } = useTheme();
   console.log("leitner", leitner);
   return (
-    <Grid item xs={4}>
-      <Card
+    <ImageListItem>
+      <Paper
         sx={{
-          ".MuiCardContent-root:last-child": { paddingBottom: 2 },
           display: "flex",
           height: "100%",
           flexDirection: "column",
@@ -88,7 +85,7 @@ const ElementCard: FC<
               width: "100%",
               justifyContent: "space-between",
               borderRadius: 0,
-              marginBottom: 2,
+              marginBottom: type === "TOPIC" ? 2 : 0,
               paddingBottom: 0,
               textAlign: "left",
               color: "white",
@@ -100,7 +97,7 @@ const ElementCard: FC<
               <LeitnerBox size={"small"} level={leitner} />
             )}
           </Button>
-          <Stack direction="row" marginX={2}>
+          <Stack direction="row" marginX={2} gap={1}>
             {leitner &&
               typeof leitner !== "number" &&
               leitner?.map((count, index) => (
@@ -112,8 +109,21 @@ const ElementCard: FC<
               ))}
           </Stack>
         </Box>
-        {children}
-      </Card>
-    </Grid>
+        <Paper
+          elevation={0}
+          sx={{
+            padding: 2,
+            margin: 2,
+            flex: 1,
+            display: "flex",
+            height: 0, // ... :/ this is how the content is fit correctly somehow
+          }}
+        >
+          <Typography overflow={"hidden"} variant={"caption"}>
+            {children}
+          </Typography>
+        </Paper>
+      </Paper>
+    </ImageListItem>
   );
 };
