@@ -17,7 +17,7 @@ export const TopicList: React.FC<ElementListProps> = ({ id }) => {
   return (
     <>
       {data.map((topic) => (
-        <ElementCard element={topic} />
+        <ElementCard key={topic.id} element={topic} />
       ))}
     </>
   );

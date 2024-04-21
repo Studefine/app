@@ -102,6 +102,7 @@ const ElementCardWrapper: FC<
               typeof leitner !== "number" &&
               leitner?.map((count, index) => (
                 <LeitnerBox
+                  key={index}
                   size={"small"}
                   level={index as LeitnerLevel}
                   count={count}

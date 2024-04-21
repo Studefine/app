@@ -13,7 +13,7 @@ export const PhraseList: React.FC<ElementListProps> = ({ id }) => {
   return (
     <>
       {data.map((phrase) => (
-        <ElementCard element={phrase}   />
+        <ElementCard key={phrase.id} element={phrase} />
       ))}
     </>
   );
