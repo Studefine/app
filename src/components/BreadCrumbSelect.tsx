@@ -9,10 +9,12 @@ import Popper from "@mui/material/Popper";
 import MenuList from "@mui/material/MenuList";
 import { IBreadCrumb } from "../types/types";
 import { NavBreadCrumb } from "./NavBreadCrumb";
+import { useTheme } from "@mui/material";
 
 export const BreadCrumbSelect: React.FC<{ breadcrumbs: IBreadCrumb[] }> = ({
   breadcrumbs,
 }) => {
+  const { spacing } = useTheme();
   const [mainBreadcrumb, ...restBreadcrumbs] = breadcrumbs;
 
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -36,12 +38,12 @@ export const BreadCrumbSelect: React.FC<{ breadcrumbs: IBreadCrumb[] }> = ({
   return (
     <React.Fragment>
       <ButtonGroup
-        sx={{ flexShrink: 0 }}
+        sx={{ flexShrink: 0, ".MuiButtonGroup-grouped": { minWidth: 0 } }}
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
       >
-        <NavBreadCrumb {...mainBreadcrumb} disabled={!restBreadcrumbs.length} />
+        <NavBreadCrumb {...mainBreadcrumb} />
         {restBreadcrumbs.length && (
           <Button
             sx={{
@@ -51,9 +53,11 @@ export const BreadCrumbSelect: React.FC<{ breadcrumbs: IBreadCrumb[] }> = ({
               display: "flex",
               textAlign: "left",
               backgroundColor: "white",
+              height: spacing(6),
+              minWidth: spacing(6),
               fontWeight: "bold",
               color: "black",
-              padding: (theme) => `0 ${theme.spacing(2)}`,
+              padding: 0,
               borderRadius: 3,
             }}
             aria-haspopup="menu"

@@ -14,6 +14,7 @@ export const Breadcrumb: React.FC<
         ":hover": { backgroundColor: palette.primary.light },
         textAlign: "left",
         flexShrink: 0,
+        height: spacing(6),
         backgroundColor: type === "PHRASE" ? "black" : "white",
         color: type === "PHRASE" ? "white" : "black",
         fontWeight: "bold",

@@ -3,7 +3,7 @@ import React from "react";
 import { useGetChildTopics } from "./hooks/useGetChildTopics";
 import { Skeleton } from "@mui/material";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import { ElementCard } from "../../components/TopicsPage/ElementCard";
+import { ElementCard } from "../../components/ElementCard";
 
 export interface ElementListProps {
   id: IElement["id"];

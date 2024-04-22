@@ -2,10 +2,10 @@ import React from "react";
 import { Paper, Typography, useTheme } from "@mui/material";
 import { darken } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
-import { LeitnerLevel } from "../types/types";
+import { ILeitnerLevel } from "../types/types";
 
 interface LeitnerBoxProps {
-  level: LeitnerLevel;
+  level: ILeitnerLevel;
   size?: "small" | "medium";
   count?: number;
 }

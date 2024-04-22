@@ -4,20 +4,16 @@ import {
   IGroup,
   IPhrase,
   ITopic,
-  LeitnerLevel,
-} from "../../types/types";
+  ILeitnerLevel,
+} from "../types/types";
 import React, { FC, PropsWithChildren } from "react";
-import {
-  Button,
-  ImageListItem,
-  Paper,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Button, ImageListItem, Paper, Stack, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { LeitnerBox } from "../LeitnerBox";
+import { LeitnerBox } from "./LeitnerBox";
 import Box from "@mui/material/Box";
+import Markdown from "react-markdown";
+import MDParagraph from "./MarkdownComponents/MDParagraph";
+import { MDLink } from "./MarkdownComponents/MDLink";
 
 type ElementCardTypes = IPhrase | ITopic | IGroup;
 
@@ -42,12 +38,14 @@ export const ElementCard = <T extends ElementCardTypes>({
       type={element.type}
       leitner={leitner}
     >
-      {element.type === "PHRASE"
-        ? (element as IPhrase).vcpd.plainDefinitions.find(
-            (plainDefinition) =>
-              plainDefinition.id === (element as IPhrase).vcpd.active,
-          )?.definition
-        : element.definition}
+      <Markdown className={"markdown-card"} components={{ p: MDParagraph, a: MDLink }}>
+        {element.type === "PHRASE"
+          ? (element as IPhrase).vcpd.plainDefinitions.find(
+              (plainDefinition) =>
+                plainDefinition.id === (element as IPhrase).vcpd.active,
+            )?.definition
+          : element.definition}
+      </Markdown>
     </ElementCardWrapper>
   );
 };
@@ -104,7 +102,7 @@ const ElementCardWrapper: FC<
                 <LeitnerBox
                   key={index}
                   size={"small"}
-                  level={index as LeitnerLevel}
+                  level={index as ILeitnerLevel}
                   count={count}
                 />
               ))}
@@ -120,9 +118,7 @@ const ElementCardWrapper: FC<
             height: 0, // ... :/ this is how the content is fit correctly somehow
           }}
         >
-          <Typography overflow={"hidden"} variant={"caption"}>
-            {children}
-          </Typography>
+          {children}
         </Paper>
       </Paper>
     </ImageListItem>

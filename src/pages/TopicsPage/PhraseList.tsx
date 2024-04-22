@@ -3,7 +3,7 @@ import { ElementListProps } from "./TopicList";
 import { useGetChildPhrases } from "./hooks/useGetChildPhrases";
 import { Skeleton } from "@mui/material";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import { ElementCard } from "../../components/TopicsPage/ElementCard";
+import { ElementCard } from "../../components/ElementCard";
 
 export const PhraseList: React.FC<ElementListProps> = ({ id }) => {
   const { data, isLoading } = useGetChildPhrases(id);

@@ -48,15 +48,16 @@ export interface VCPD {
   active: PlainDefinition["id"];
 }
 
-export type LeitnerLevel = 0 | 1 | 2 | 3 | 4;
+export type ILeitnerLevel = 0 | 1 | 2 | 3 | 4;
+export type ILeitnerBoxesCount = [number, number, number, number, number];
 
 export interface IPhrase extends Omit<IElement, "children"> {
   vcpd: VCPD;
-  leitnerLevel: LeitnerLevel;
+  leitnerLevel: ILeitnerLevel;
 }
 export interface ITopic extends IElement {
   /** the counts of the leitner boxes **/
-  leitnerBoxesCounts: [number, number, number, number, number];
+  leitnerBoxesCounts: ILeitnerBoxesCount;
 }
 export interface ITopicCreate extends Omit<ITopic, "id"> {}
 export interface IPhraseCreate extends Omit<ITopic, "id"> {}

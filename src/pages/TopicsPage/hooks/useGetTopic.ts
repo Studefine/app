@@ -3,6 +3,6 @@ import { getTopic } from "../../../api/topics";
 import { ApiPath } from "../../../api/fetcher";
 
 export const useGetTopic = (id: string) =>
-  useQuery(["topic" as ApiPath, id], getTopic, {
+  useQuery(["topics" as ApiPath, id], getTopic, {
     refetchOnWindowFocus: false,
   });
