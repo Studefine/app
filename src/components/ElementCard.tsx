@@ -1,10 +1,10 @@
 import {
-  ElementType,
   IElement,
+  IElementType,
   IGroup,
+  ILeitnerLevel,
   IPhrase,
   ITopic,
-  ILeitnerLevel,
 } from "../types/types";
 import React, { FC, PropsWithChildren } from "react";
 import { Button, ImageListItem, Paper, Stack, useTheme } from "@mui/material";
@@ -38,7 +38,10 @@ export const ElementCard = <T extends ElementCardTypes>({
       type={element.type}
       leitner={leitner}
     >
-      <Markdown className={"markdown-card"} components={{ p: MDParagraph, a: MDLink }}>
+      <Markdown
+        className={"markdown-card"}
+        components={{ p: MDParagraph, a: MDLink }}
+      >
         {element.type === "PHRASE"
           ? (element as IPhrase).vcpd.plainDefinitions.find(
               (plainDefinition) =>
@@ -54,7 +57,7 @@ const ElementCardWrapper: FC<
   PropsWithChildren<{
     id: IElement["id"];
     name: IElement["name"];
-    type: ElementType;
+    type: IElementType;
     leitner?: IPhrase["leitnerLevel"] | ITopic["leitnerBoxesCounts"];
   }>
 > = ({ id, name, type, children, leitner }) => {

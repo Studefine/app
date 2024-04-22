@@ -29,7 +29,7 @@ export interface IElement {
   name: string;
   definition: string;
   parent: IElement["id"] | null;
-  type: ElementType;
+  type: IElementType;
 }
 
 /** user can create plain definition for better connection about the definition **/
@@ -65,10 +65,10 @@ export interface IGroup extends IElement {
   person: IMember;
 }
 
-export type ElementType = "TOPIC" | "GROUP" | "PHRASE";
+export type IElementType = "TOPIC" | "GROUP" | "PHRASE";
 
 export interface IBreadCrumb<T extends IElement = ITopic> {
   id?: T["id"];
   name?: T["id"];
-  type?: ElementType;
+  type?: IElementType;
 }

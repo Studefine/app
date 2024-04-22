@@ -1,11 +1,13 @@
-import { MutationFunction } from "react-query/types/core/types";
+import { MutationFunction, QueryFunction } from "react-query/types/core/types";
 import { IElement, IPhrase, IPhraseCreate } from "../types/types";
 import { fetcher } from "./fetcher";
 
 export const pathPhrases = "phrases";
 
-export const getPhrase = (id: IPhrase["id"]) => {
-  return fetcher<IPhrase>(`${pathPhrases}/${id}`, {
+export const getPhrase: QueryFunction<IPhrase, [string, IPhrase["id"]]> = ({
+  queryKey,
+}) => {
+  return fetcher<IPhrase>(`${pathPhrases}/${queryKey[1]}`, {
     method: "GET",
   }).json();
 };

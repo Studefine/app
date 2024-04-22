@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { getTopic } from "../../../api/topics";
-import { ApiPath } from "../../../api/fetcher";
+import { IElementType } from "../../../types/types";
 
 export const useGetTopic = (id: string) =>
-  useQuery(["topics" as ApiPath, id], getTopic, {
+  useQuery(["TOPIC" as IElementType, id], getTopic, {
     refetchOnWindowFocus: false,
   });
