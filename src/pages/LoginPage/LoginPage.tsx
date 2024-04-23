@@ -21,28 +21,28 @@ import { loginValidation } from "./loginValidation";
 import { ILoginParameters } from "../../types/types";
 import { bindField } from "../../utils/bindField";
 
+import {useSnackbarContext} from "../../containers/SnackbarProvider";
+
 const LoginPage = () => {
+  const { open } = useSnackbarContext();
   const { spacing } = useTheme();
   const {
     login,
     isLoading,
     loginResponses: { isError, error, reset, data },
   } = useAuthContext();
-  const navigate = useNavigate();
   const { register, handleSubmit, setError, formState, control } =
     useForm<ILoginParameters>({
       defaultValues: { stayLoggedIn: false },
       resolver: yupResolver(loginValidation),
     });
+  const navigate = useNavigate();
   useEffect(() => {
     if (isError) {
-      setError("email", { message: "Hibás emailcím vagy password" });
       if (error.message === "wrongPasswordOrEmail") {
-        console.log(
-          "loginresponses after error",
-          error.message,
-          error.message === "wrongPasswordOrEmail",
-        );
+        setError("email", { message: "Hibás emailcím vagy jelszó" });
+      } else {
+        open({ message: error });
       }
     }
   }, [isError, error, reset]);

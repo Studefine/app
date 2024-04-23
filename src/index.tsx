@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -7,47 +7,13 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { customTheme } from "./utils/customValues";
-import {
-  CssBaseline,
-  GlobalStyles,
-  Slide,
-  Snackbar,
-  ThemeProvider,
-} from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
 import AuthProvider from "./containers/AuthProvider";
 import GlobalProgressbarProvider from "./containers/GlobalProgressbarProvider";
 import { AppRouter } from "./pages/AppRouter";
-import { grey } from "@mui/material/colors";
-
-type IOpen = (duration: number, color: `#${string},`, message: string) => void;
-const SnackbarContext = createContext<{ open: IOpen }>({
-  open: (duration: number, color: `#${string},`, message: string) => {},
-});
-const SnackbarProvider = () => {
-  const [autoHideDuration, setAutoHideDuration] = useState<number>();
-  const [message, setMessage] = useState<string>("");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const open: IOpen = (duration, color, message) => {
-    setAutoHideDuration(duration);
-    setIsOpen(true);
-  };
-  return (
-    <SnackbarContext.Provider value={{ open }}>
-      <Snackbar
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        TransitionComponent={Slide}
-        message="I love snacks"
-        autoHideDuration={1200}
-      />
-    </SnackbarContext.Provider>
-  );
-};
-
-const useSnackbarContext = () => useContext(SnackbarContext);
+import { SnackbarProvider } from "./containers/SnackbarProvider";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -60,7 +26,9 @@ root.render(
         <CssBaseline />
         <GlobalProgressbarProvider>
           <AuthProvider>
-            <RouterProvider router={AppRouter} />
+            <SnackbarProvider>
+              <RouterProvider router={AppRouter} />
+            </SnackbarProvider>
           </AuthProvider>
         </GlobalProgressbarProvider>
       </ThemeProvider>
