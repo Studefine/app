@@ -1,6 +1,6 @@
 import { IPhrase, ITopic } from "../../types/types";
 import React, { FC, useMemo } from "react";
-import {Grid, ImageList, Skeleton, Typography} from "@mui/material";
+import { ImageList, Skeleton, Typography, useMediaQuery } from "@mui/material";
 import { ElementCard } from "../../components/ElementCard";
 import { useGetChildPhrases } from "./hooks/useGetChildPhrases";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
@@ -10,28 +10,30 @@ const List: FC<{ topics: ITopic[]; phrases: IPhrase[] }> = ({
   topics,
   phrases,
 }) => {
+  const isMd = useMediaQuery("md");
+  console.log(isMd);
   const childCount = useMemo(
     () => phrases.length + topics.length,
     [phrases.length, topics.length],
   );
-  return (
-    <Grid item xs={9} height="100%">
-      { childCount === 0?<Typography textAlign="center" variant={"h5"}>Nincsenek megjeleníthető elemek</Typography>:
-        <ImageList
-          sx={{ width: "100%", height: "100%", marginTop: 0 }}
-          cols={3}
-          rowHeight={250}
-        >
-          {topics.map((element) => (
-            <ElementCard key={element.id} element={element} />
-          ))}
+  return childCount === 0 ? (
+    <Typography textAlign="center" variant={"h5"}>
+      Nincsenek megjeleníthető elemek
+    </Typography>
+  ) : (
+    <ImageList
+      sx={{ width: "100%", height: "100%", marginTop: 5 }}
+      cols={isMd ? 3 : 2}
+      rowHeight={250}
+    >
+      {topics.map((element) => (
+        <ElementCard key={element.id} element={element} />
+      ))}
 
-          {phrases.map((phrase) => (
-            <ElementCard key={phrase.id} element={phrase} />
-          ))}
-        </ImageList>
-      }
-    </Grid>
+      {phrases.map((phrase) => (
+        <ElementCard key={phrase.id} element={phrase} />
+      ))}
+    </ImageList>
   );
 };
 

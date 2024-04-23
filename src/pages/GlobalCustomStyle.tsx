@@ -8,22 +8,12 @@ export const GlobalCustomStyle = () => {
   return (
     <GlobalStyles
       styles={{
+        ".markdown": { height: "100%", maxHeight: 500, flex: 1, contain: "inline-size"},
         ".markdown-card": { marginTop: 0, fontSize: "75%" },
-        ".markdown-card p": {
-          marginTop: 0,
-        },
-        ".markdown-card a": {
-          color: palette.info.main,
-        },
-        ".markdown a": {
-          color: palette.info.main,
-        },
-        ".markdown": {
-            height: "100%",
-        },
-        ".markdown, .markdown-card": {
-          overflow: "auto",
-        },
+        ".markdown-card p": { marginTop: 0 },
+        ".markdown-card a": { color: palette.info.main },
+        ".markdown a": { color: palette.info.main },
+        ".markdown, .markdown-card": { overflow: "auto" },
 
         ".markdown-scroll": {
           fontSize: "75%",

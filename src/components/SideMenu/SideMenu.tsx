@@ -1,4 +1,5 @@
 import * as React from "react";
+import { FC } from "react";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import {
@@ -10,25 +11,31 @@ import {
 } from "@mui/icons-material";
 import Logo from "../Logo";
 import Box from "@mui/material/Box";
-import { Paper } from "@mui/material";
 import { useAuthContext } from "../../containers/AuthProvider";
 import NavButton from "../MenuButton/NavButton";
 import { MenuButton } from "../MenuButton/MenuButton";
-import {portalIds} from "../../types/portalIds";
+import { portalIds } from "../../types/portalIds";
+import Paper from "@mui/material/Paper";
 
-const SideMenu = () => {
+interface ISideMenuProps {
+  displayLogo?: boolean;
+}
+
+const SideMenu: FC<ISideMenuProps> = ({ displayLogo = false }) => {
   const { logout, user, isAuthCheckedOnLoad } = useAuthContext();
 
   return (
-    <Paper style={{ display: "flex", borderRadius: 0 }}>
+    <Paper style={{ display: "flex", borderRadius: 0, height: "inherit" }}>
       <Box
-        padding={5}
+        paddingY={4}
         display="flex"
+        height="inherit"
+        width="100%"
+        alignItems="center"
         flexDirection="column"
         gap={8}
-        height={"auto"}
       >
-        <Logo />
+        {displayLogo && <Logo />}
         <Box display="flex" flexDirection="column" gap={3} flex={1}>
           <List>
             <NavButton name="Kontakt" path="/contacts" Icon={ContactSupport} />

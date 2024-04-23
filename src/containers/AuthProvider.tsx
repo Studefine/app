@@ -156,8 +156,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-
-
 export const useAuthContext = () => useContext(authContext);
 
 export default AuthProvider;

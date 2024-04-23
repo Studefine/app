@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
       <StudefineLogo fontSize={"large"} />
-      <Typography fontSize={"xx-large"} fontWeight={"bolder"}>
+      <Typography fontSize={"x-large"} fontWeight={"bolder"}>
         Studefine
       </Typography>
     </Box>

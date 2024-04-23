@@ -21,7 +21,7 @@ import { loginValidation } from "./loginValidation";
 import { ILoginParameters } from "../../types/types";
 import { bindField } from "../../utils/bindField";
 
-import {useSnackbarContext} from "../../containers/SnackbarProvider";
+import { useSnackbarContext } from "../../containers/SnackbarProvider";
 
 const LoginPage = () => {
   const { open } = useSnackbarContext();
@@ -29,7 +29,7 @@ const LoginPage = () => {
   const {
     login,
     isLoading,
-    loginResponses: { isError, error, reset, data },
+    loginResponses: { isError, error, reset },
   } = useAuthContext();
   const { register, handleSubmit, setError, formState, control } =
     useForm<ILoginParameters>({
