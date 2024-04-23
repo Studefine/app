@@ -31,7 +31,7 @@ export const MenuButton: React.FC<MenuButtonProps> = ({
         {isLoading ? (
           <CircularProgress color="secondary" size={24} />
         ) : (
-          <Icon sx={{ width: spacing(6), height: spacing(6) }} />
+          <Icon sx={{ width: spacing(7), height: spacing(7) }} />
         )}
       </ListItemIcon>
       <ListItemText primary={name} sx={{ m: 0 }} />

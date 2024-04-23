@@ -2,7 +2,7 @@ import React from "react";
 import SideMenu from "../components/SideMenu/SideMenu";
 import Box from "@mui/material/Box";
 import { Outlet } from "react-router-dom";
-import { Container, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { GlobalProgressbar } from "../containers/GlobalProgressbarProvider";
 import { GlobalCustomStyle } from "./GlobalCustomStyle";
 
@@ -13,9 +13,16 @@ const Layout = () => {
       <GlobalProgressbar />
       <Stack direction="row" height={"100vh"}>
         <SideMenu />
-        <Container fixed sx={{ overflow: "hidden", height: "100%" }}>
+        <Box
+          sx={{
+            overflow: "hidden",
+            height: "100%",
+            paddingX: 5,
+            width: "100%",
+          }}
+        >
           <Outlet />
-        </Container>
+        </Box>
       </Stack>
     </Box>
   );
