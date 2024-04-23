@@ -14,8 +14,8 @@ import { Paper } from "@mui/material";
 import { useAuthContext } from "../../containers/AuthProvider";
 import NavButton from "../MenuButton/NavButton";
 import { MenuButton } from "../MenuButton/MenuButton";
+import {portalIds} from "../../types/portalIds";
 
-// const SIDE_MENU_PORTAL_ID = "side_menu_portal";
 const SideMenu = () => {
   const { logout, user, isAuthCheckedOnLoad } = useAuthContext();
 
@@ -40,7 +40,7 @@ const SideMenu = () => {
             )}
           </List>
           <Divider />
-          <List id="side_menu_portal" style={{ flex: 1 }} />
+          <List id={portalIds.sideMenu} style={{ flex: 1 }} />
           <Divider />
           <List>
             <NavButton name="Beállítások" path="/settings" Icon={Tune} />

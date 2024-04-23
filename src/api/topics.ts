@@ -1,5 +1,5 @@
 import { MutationFunction, QueryFunction } from "react-query/types/core/types";
-import { IElement, ITopic, ITopicCreate } from "../types/types";
+import { IElement, IPhrase, ITopic, ITopicCreate } from "../types/types";
 import { ApiPath, fetcher } from "./fetcher";
 
 export const pathTopics = "topics";
@@ -14,10 +14,10 @@ export const getChildTopics: QueryFunction<
 };
 
 export const getChildPhrases: QueryFunction<
-  ITopic[],
+  IPhrase[],
   [ApiPath, ITopic["id"], ApiPath]
 > = ({ queryKey }) => {
-  return fetcher<ITopic[]>(`${pathTopics}/${queryKey[1]}/phrases`, {
+  return fetcher<IPhrase[]>(`${pathTopics}/${queryKey[1]}/phrases`, {
     method: "GET",
   }).json();
 };
